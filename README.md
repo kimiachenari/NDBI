@@ -132,6 +132,8 @@ The generated **NDBI map** uses a color palette to represent areas with varying 
 This provides an intuitive way to visualize urban growth and development across the study area.
 
 ---
+![Snapshot_۲۵-۰۴-۲۸_۰۸-۰۲-۰۲](https://github.com/user-attachments/assets/46601878-b1cc-4ba9-b3ee-7a1c47bf6248)
+
 
 ## 📅 **Future Enhancements**
 
