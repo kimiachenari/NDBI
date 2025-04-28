@@ -1,0 +1,43 @@
+
+
+
+// Define the time range for 2019
+var startDate = '2019-01-01';
+var endDate = '2019-12-31';
+
+// Load Landsat 8 imagery for the specified date range and geometry
+var landsat8 = ee.ImageCollection('LANDSAT/LC08/C02/T1_RT')
+                .filterDate(startDate, endDate)
+                .filterBounds(geometry);
+
+// Function to calculate NDBI
+var addNDBI = function(image) {
+  var ndbi = image.normalizedDifference(['B6', 'B5']).rename('NDBI');
+  return image.addBands(ndbi);
+};
+
+// Apply the NDBI function to the image collection
+var ndbiCollection = landsat8.map(addNDBI);
+
+// Select the NDBI band from the collection
+var ndbi2019 = ndbiCollection.select('NDBI');
+
+// Reduce the collection to a single image (mean)
+var ndbiMean = ndbi2019.mean().clip(geometry);
+
+// Add the result to the map
+Map.centerObject(geometry, 10);
+Map.addLayer(ndbiMean, {min: -0.5, max: 1, palette: ['blue', 'white', 'green']}, 'NDBI 2019');
+
+// Print the NDBI mean image to the console
+print(ndbiMean);
+Export.image.toDrive({
+  image: ndbiMean,
+  description: 'NDBI_2019',
+  scale: 30,
+  region: geometry,
+  maxPixels: 1e13
+});
+
+// Print the NDBI mean image to the console
+print(ndbiMean);
